@@ -1,7 +1,12 @@
 # gocd-vagrant
 
-Run "vagrant up" after cloning the repo to spin up a VM with GoCD server (and 1 agent) installed.
+To spin up a VM with GoCD server (and 1 agent) installed run:
 
-Then you should see Go's admin page (Add Pipeline) at this URL:
+`vagrant up`
 
-http://localhost:8153/go
+
+When finished you should see Go's admin page at this URL:
+
+[http://localhost:8153/go](http://localhost:8153/go)
+
+If not, try again a few minutes later as Go server startup is rather slow.
