@@ -17,3 +17,16 @@ sudo apt-get update
 sudo apt-get install -y go-agent
 
 sudo /etc/init.d/go-agent start &
+
+# install gauntlt
+sudo apt-get install -y ruby # requires ruby
+sudo apt-get install -y ruby-dev # to build gem native extensions
+sudo apt-get install -y build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev autoconf libc6-dev ncurses-dev automake libtool # packages require to build gem native extensions
+
+sudo gem install gauntlt
+
+# install security tools
+sudo apt-get install -y nmap # nmap
+git clone https://github.com/sqlmapproject/sqlmap.git sqlmap-dev # sqlmap (recommended installation)
+
+ 
