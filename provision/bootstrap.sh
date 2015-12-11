@@ -31,4 +31,22 @@ sudo gem install gauntlt
 sudo apt-get install -y nmap # nmap
 git clone https://github.com/sqlmapproject/sqlmap.git sqlmap-dev # sqlmap (recommended installation)
 
- 
+# configure pipeline for Go server
+# - we need to construct Go's config XML by concatenating its config after server&agent install and our pipeline configuration part
+GO_SERVER_CONFIG_FILE="cruise-config.xml"
+
+# the config file after install contains server and agent information - in between we need to include the pipeline definitions, so we split the config file in two files (server goes in cruise-config00 and agent goes in cruise-config01) 
+
+csplit --quiet --prefix="cruise-config" /var/lib/go-server/db/config.git/cruise-config.xml "/<agents>/" "{*}" 
+
+cat cruise-config00 > ${GO_SERVER_CONFIG_FILE}
+cat /vagrant/pipelines/templates/basic_build_tests_sec_deploy_pipeline.xml >> ${GO_SERVER_CONFIG_FILE} # this is our pipeline definition file
+cat cruise-config01 >> ${GO_SERVER_CONFIG_FILE} 
+
+# now our cruise-config.xml file should have this structure:
+# <server>
+# <pipelines>
+# <templates>
+# <agents>
+
+sudo cp ${GO_SERVER_CONFIG_FILE} "/etc/go/${GO_SERVER_CONFIG_FILE}"
