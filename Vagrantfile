@@ -33,9 +33,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # (default port for Go-server) on the guest machine.
   config.vm.network "forwarded_port", guest: 8153, host: 8153
 
-  # 80 is the port for the demo vulnerable app, let's forward to port 8080 on host to avoid conflicts 
-  config.vm.network "forwarded_port", guest: 80, host: 8080
-
+  # forward the guest port for demo vulnerable app to port 8080 on host 
+  config.vm.network "forwarded_port", guest: 3000, host: 3000 
+  
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
@@ -47,8 +47,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
-  # config.ssh.forward_agent = true
-  # config.ssh.forward_x11 = true
+  config.ssh.forward_agent = true
+  config.ssh.forward_x11 = true
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
