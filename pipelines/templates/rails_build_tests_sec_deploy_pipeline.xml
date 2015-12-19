@@ -1,0 +1,80 @@
+  <pipelines group="defaultGroup">
+    <pipeline name="demo" template="basic_build_tests_sec_deploy_pipeline">
+      <materials>
+        <git url="https://github.com/SkeltonThatcher/railsgoat" />
+      </materials>
+    </pipeline>
+  </pipelines>
+  <templates>
+    <pipeline name="basic_build_tests_sec_deploy_pipeline">
+      <stage name="Build_Unit_Tests">
+        <jobs>
+          <job name="Build">
+            <tasks>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>source ~/.bash_profile &amp;&amp; bundle install</arg>
+                <runif status="passed" />
+              </exec>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>cat /vagrant/pipelines/scripts/launch_rails.sh ; /vagrant/pipelines/scripts/launch_rails.sh</arg>
+                <runif status="passed" />
+              </exec>
+            </tasks>
+          </job>
+          <job name="Unit_Tests">
+            <tasks>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>echo ""</arg>
+                <runif status="passed" />
+              </exec>            
+	    </tasks>
+          </job>
+        </jobs>
+      </stage>
+      <stage name="Acceptance_Tests">
+        <jobs>
+          <job name="Acceptance_Tests">
+            <tasks>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>echo ""</arg>
+              </exec>
+            </tasks>
+          </job>
+        </jobs>
+      </stage>
+      <stage name="Security_Tests">
+        <environmentvariables>
+          <variable name="SQLMAP_HOME">
+            <value>/home/vagrant/sqlmap-dev</value>
+          </variable>
+        </environmentvariables>
+        <jobs>
+          <job name="Security_Tests">
+            <tasks>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>echo ""</arg>
+              </exec>
+            </tasks>
+          </job>
+        </jobs>
+      </stage>
+      <stage name="Deploy_To_Production">
+        <approval type="manual" />
+        <jobs>
+          <job name="Deploy_To_Production">
+            <tasks>
+              <exec command="/bin/bash">
+                <arg>-c</arg>
+                <arg>echo ""</arg>
+              </exec>
+            </tasks>
+          </job>
+        </jobs>
+      </stage>
+    </pipeline>
+  </templates>
