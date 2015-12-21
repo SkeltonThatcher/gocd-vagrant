@@ -34,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network "forwarded_port", guest: 8153, host: 8153
 
   # forward the guest port for demo vulnerable app to port 8080 on host 
-  config.vm.network "forwarded_port", guest: 3000, host: 3000 
+  config.vm.network "forwarded_port", guest: 3000, host: 8080 
   
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
