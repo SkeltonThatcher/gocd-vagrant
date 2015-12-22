@@ -48,7 +48,7 @@
       </stage>
       <stage name="Security_Tests">
         <environmentvariables>
-          <variable name="SQLMAP_HOME">
+          <variable name="SQLMAP_PATH">
             <value>/home/vagrant/sqlmap-dev</value>
           </variable>
         </environmentvariables>
@@ -57,7 +57,7 @@
             <tasks>
               <exec command="/bin/bash">
                 <arg>-c</arg>
-                <arg>echo ""</arg>
+                <arg>source ~/.bash_profile &amp;&amp; gauntlt</arg>
               </exec>
             </tasks>
           </job>
