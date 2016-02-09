@@ -7,7 +7,7 @@
   </pipelines>
   <templates>
     <pipeline name="basic_build_tests_sec_deploy_pipeline">
-      <stage name="Build_Unit_Tests" cleanWorkingDir="true">
+      <stage name="Build_Unit_Tests">
         <jobs>
           <job name="Build">
             <tasks>
@@ -41,8 +41,8 @@
       </stage>
       <stage name="Security_Tests">
         <environmentvariables>
-          <variable name="SQLMAP_HOME">
-            <value>/home/vagrant/sqlmap-dev</value>
+          <variable name="SQLMAP_PATH">
+            <value>/home/vagrant/sqlmap-dev/sqlmap.py</value>
           </variable>
         </environmentvariables>
         <jobs>
