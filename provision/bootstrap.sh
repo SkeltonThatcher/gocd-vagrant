@@ -16,8 +16,8 @@ time sudo apt-get install -y go-server
 time sudo /etc/init.d/go-server start &
 
 # agent
-time wget --quiet -O - "https://bintray.com/user/downloadSubjectPublicKey?username=gocd" | sudo apt-key add -
-time sudo apt-get update
+#time wget --quiet -O - "https://bintray.com/user/downloadSubjectPublicKey?username=gocd" | sudo apt-key add -
+#time sudo apt-get update
 time sudo apt-get install -y go-agent
 
 time sudo /etc/init.d/go-agent start &
@@ -29,14 +29,15 @@ time sudo apt-get install -y libmysqlclient-dev # required by mysql ruby gem
 
 time sudo su - go <<EOF
 gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 # public key required by rvm (which we use to install Ruby)
-curl -L https://get.rvm.io | bash -s stable --autolibs=2 --ruby=2.2.3 # gauntlt requires Ruby and the Railsgoat demo app requires version 2.2.3 specifically
+curl -L https://get.rvm.io | bash -s stable --autolibs=2 # gauntlt requires Ruby and the Railsgoat demo app requires version 2.2.3 specifically
+rvm mount -r https://rvm.io/binaries/debian/jessie_sid/x86_64/ruby-2.2.1.tar.bz2
 EOF
 
 time sudo apt-get install -y ruby-dev # to build gem native extensions
 time sudo apt-get install -y build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev autoconf libc6-dev ncurses-dev automake libtool # packages require to build gem native extensions
 
 time sudo su - go <<EOF
-  gem install gauntlt
+  gem install gauntlt --no-ri --no-rdoc
 EOF
 
 # install security tools
@@ -45,7 +46,7 @@ time git clone https://github.com/sqlmapproject/sqlmap.git sqlmap-dev # sqlmap (
 
 # install dependencies required for Railsgoat (demo app) build
 time sudo su - go <<EOF
-  gem install bundle
+  gem install bundle --no-ri --no-rdoc
 EOF
 
 # configure pipeline for Go server
@@ -70,6 +71,6 @@ time sudo cp ${GO_SERVER_CONFIG_FILE} "/etc/go/${GO_SERVER_CONFIG_FILE}"
 
 time chmod +x /vagrant/pipelines/scripts/* # make sure Go can execute the pipeline scripts
 
-time sudo /etc/init.d/go-server start & # overwriting the config file might be killing Go Server, restart here just in case
+time sudo /etc/init.d/go-server start # overwriting the config file might be killing Go Server, restart here just in case
 
 set +x
