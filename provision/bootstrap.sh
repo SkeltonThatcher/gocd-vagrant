@@ -1,7 +1,5 @@
 set -x
 
-time sudo apt-get update
-
 # install and start GoCD server and agent
 # sources:
 # server - http://www.go.cd/documentation/user/current/installation/install/server/linux.html#debian-based-distributions-ie-ubuntu
@@ -30,7 +28,9 @@ time sudo apt-get install -y libmysqlclient-dev # required by mysql ruby gem
 time sudo su - go <<EOF
 gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 # public key required by rvm (which we use to install Ruby)
 curl -L https://get.rvm.io | bash -s stable --autolibs=2 # gauntlt requires Ruby and the Railsgoat demo app requires version 2.2.3 specifically
+source /var/go/.rvm/scripts/rvm
 rvm mount -r https://rvm.io/binaries/debian/jessie_sid/x86_64/ruby-2.2.1.tar.bz2
+rvm alias create default 2.2.1
 EOF
 
 time sudo apt-get install -y ruby-dev # to build gem native extensions
