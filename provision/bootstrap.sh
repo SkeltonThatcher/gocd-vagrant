@@ -42,7 +42,9 @@ EOF
 
 # install security tools
 time sudo apt-get install -y nmap # nmap
-time git clone https://github.com/sqlmapproject/sqlmap.git sqlmap-dev # sqlmap (recommended installation)
+
+# time git clone https://github.com/sqlmapproject/sqlmap.git sqlmap-dev 
+time $(wget -q https://github.com/sqlmapproject/sqlmap/tarball/master ; tar -xf master ; mv sqlmapproject-* sqlmap)
 
 # install dependencies required for Railsgoat (demo app) build
 time sudo su - go <<EOF

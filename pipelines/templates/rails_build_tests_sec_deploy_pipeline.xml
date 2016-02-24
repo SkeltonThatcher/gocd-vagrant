@@ -49,7 +49,7 @@
       <stage name="Security_Tests">
         <environmentvariables>
           <variable name="SQLMAP_PATH">
-            <value>/home/vagrant/sqlmap-dev/sqlmap.py</value>
+            <value>/home/vagrant/sqlmap/sqlmap.py</value>
           </variable>
         </environmentvariables>
         <jobs>
