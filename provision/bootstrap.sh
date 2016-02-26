@@ -1,10 +1,12 @@
 set -x
 
 # install and start GoCD server and agent
-# sources:
-# server - http://www.go.cd/documentation/user/current/installation/install/server/linux.html#debian-based-distributions-ie-ubuntu
-# agent  - https://www.go.cd/documentation/user/current/installation/install/agent/linux.html#debian-based-distributions-ie-ubuntu
 
+## sources:
+## server - http://www.go.cd/documentation/user/current/installation/install/server/linux.html#debian-based-distributions-ie-ubuntu
+## agent  - https://www.go.cd/documentation/user/current/installation/install/agent/linux.html#debian-based-distributions-ie-ubuntu
+
+### server
 time echo "deb http://dl.bintray.com/gocd/gocd-deb/ /" > gocd.list
 time sudo mv gocd.list /etc/apt/sources.list.d/
 time wget --quiet -O - "https://bintray.com/user/downloadSubjectPublicKey?username=gocd" | sudo apt-key add -
@@ -13,18 +15,19 @@ time sudo apt-get install -y go-server
 
 time sudo /etc/init.d/go-server start &
 
-# agent
-#time wget --quiet -O - "https://bintray.com/user/downloadSubjectPublicKey?username=gocd" | sudo apt-key add -
-#time sudo apt-get update
+### agent
 time sudo apt-get install -y go-agent
 
 time sudo /etc/init.d/go-agent start &
 
-# install gauntlt
+# install ruby 
 
-time sudo apt-get install -y gawk libsqlite3-dev sqlite3 libgdbm-dev pkg-config libffi-dev g++ gcc make libreadline6-dev libssl-dev libyaml-dev autoconf libncurses5-dev automake libtool bison # libs required by Ruby
-time sudo apt-get install -y libmysqlclient-dev # required by mysql ruby gem
+## libs required by Ruby
+time sudo apt-get install -y gawk libsqlite3-dev sqlite3 libgdbm-dev pkg-config libffi-dev g++ gcc make libreadline6-dev libssl-dev libyaml-dev autoconf libncurses5-dev automake libtool bison 
+## required by mysql ruby gem
+time sudo apt-get install -y libmysqlclient-dev 
 
+## download key and install rvm and ruby 2.2.1
 time sudo su - go <<EOF
 gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 # public key required by rvm (which we use to install Ruby)
 curl -L https://get.rvm.io | bash -s stable --autolibs=2 # gauntlt requires Ruby and the Railsgoat demo app requires version 2.2.3 specifically
@@ -33,17 +36,21 @@ rvm mount -r https://rvm.io/binaries/debian/jessie_sid/x86_64/ruby-2.2.1.tar.bz2
 rvm alias create default 2.2.1
 EOF
 
-time sudo apt-get install -y ruby-dev # to build gem native extensions
-time sudo apt-get install -y build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev autoconf libc6-dev ncurses-dev automake libtool # packages require to build gem native extensions
+## libs to build gem native extensions
+time sudo apt-get install -y ruby-dev 
+time sudo apt-get install -y build-essential bison openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libxml2-dev autoconf libc6-dev ncurses-dev automake libtool
 
+# install security tools
+
+## gauntlt framework
 time sudo su - go <<EOF
   gem install gauntlt --no-ri --no-rdoc
 EOF
 
-# install security tools
+## nmap tool
 time sudo apt-get install -y nmap # nmap
 
-# time git clone https://github.com/sqlmapproject/sqlmap.git sqlmap-dev 
+## sqlmap tool
 time $(wget -q https://github.com/sqlmapproject/sqlmap/tarball/master ; tar -xf master ; mv sqlmapproject-* sqlmap)
 
 # install dependencies required for Railsgoat (demo app) build
