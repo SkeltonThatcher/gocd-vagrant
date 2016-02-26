@@ -1,24 +1,29 @@
   <pipelines group="defaultGroup">
-    <pipeline name="demo" template="basic_build_tests_sec_deploy_pipeline">
+    <pipeline name="demo" template="rails_build_tests_sec_deploy_pipeline">
       <materials>
         <git url="https://github.com/SkeltonThatcher/railsgoat" />
       </materials>
+      <environmentvariables>
+        <variable name="PIPELINE_SCRIPTS">
+          <value>/vagrant/pipelines/scripts</value>
+        </variable>
+      </environmentvariables>
     </pipeline>
   </pipelines>
   <templates>
-    <pipeline name="basic_build_tests_sec_deploy_pipeline">
-      <stage name="Build_Unit_Tests">
+    <pipeline name="rails_build_tests_sec_deploy_pipeline">    
+        <stage name="Build_Unit_Tests">
         <jobs>
           <job name="Build">
             <tasks>
               <exec command="/bin/bash">
                 <arg>-c</arg>
-                <arg>source ~/.bash_profile &amp;&amp; bundle install</arg>
+                <arg>CMD="${PIPELINE_SCRIPTS}/install_gems.sh"; cat $CMD; $CMD</arg>
                 <runif status="passed" />
               </exec>
               <exec command="/bin/bash">
                 <arg>-c</arg>
-                <arg>cat /vagrant/pipelines/scripts/launch_rails.sh ; /vagrant/pipelines/scripts/launch_rails.sh</arg>
+                <arg>CMD="${PIPELINE_SCRIPTS}/build_and_launch_rails.sh"; cat $CMD; $CMD</arg>
                 <runif status="passed" />
               </exec>
             </tasks>
@@ -27,7 +32,7 @@
             <tasks>
               <exec command="/bin/bash">
                 <arg>-c</arg>
-                <arg>echo ""</arg>
+                <arg>CMD="${PIPELINE_SCRIPTS}/dummy_cmd.sh"; cat $CMD; $CMD</arg>
                 <runif status="passed" />
               </exec>            
 	    </tasks>
@@ -40,29 +45,24 @@
             <tasks>
               <exec command="/bin/bash">
                 <arg>-c</arg>
-                <arg>echo ""</arg>
+                <arg>CMD="${PIPELINE_SCRIPTS}/dummy_cmd.sh"; cat $CMD; $CMD</arg>
               </exec>
             </tasks>
           </job>
         </jobs>
       </stage>
       <stage name="Security_Tests">
-        <environmentvariables>
-          <variable name="SQLMAP_PATH">
-            <value>/home/vagrant/sqlmap/sqlmap.py</value>
-          </variable>
-        </environmentvariables>
         <jobs>
           <job name="Security_Tests">
             <tasks>
               <exec command="/bin/bash">
                 <arg>-c</arg>
-                <arg>source ~/.bash_profile &amp;&amp; gauntlt --format=html &gt; security_tests_results.html</arg>
+                <arg>CMD="${PIPELINE_SCRIPTS}/run_security_tests.sh"; cat $CMD; $CMD</arg>
                 <runif status="passed" />
               </exec>
             </tasks>
             <artifacts>
-              <artifact src="security_tests_results.html" />
+              <artifact src="*.html" />
             </artifacts>
           </job>
         </jobs>
@@ -74,7 +74,7 @@
             <tasks>
               <exec command="/bin/bash">
                 <arg>-c</arg>
-                <arg>echo ""</arg>
+                <arg>CMD="${PIPELINE_SCRIPTS}/dummy_cmd.sh"; cat $CMD; $CMD</arg>
               </exec>
             </tasks>
           </job>
