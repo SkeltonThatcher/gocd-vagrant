@@ -18,7 +18,7 @@
               </exec>
               <exec command="/bin/bash">
                 <arg>-c</arg>
-                <arg>cat /vagrant/pipelines/scripts/launch_rails.sh ; /vagrant/pipelines/scripts/launch_rails.sh</arg>
+                <arg>cat /vagrant/pipelines/scripts/launch_rails_aux.sh ; /vagrant/pipelines/scripts/launch_rails_aux.sh</arg>
                 <runif status="passed" />
               </exec>
             </tasks>
