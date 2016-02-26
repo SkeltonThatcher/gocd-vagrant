@@ -1,13 +1,13 @@
   <pipelines group="defaultGroup">
     <pipeline name="demo" template="rails_build_tests_sec_deploy_pipeline">
-      <materials>
-        <git url="https://github.com/SkeltonThatcher/railsgoat" />
-      </materials>
       <environmentvariables>
         <variable name="PIPELINE_SCRIPTS">
           <value>/vagrant/pipelines/scripts</value>
         </variable>
       </environmentvariables>
+      <materials>
+        <git url="https://github.com/SkeltonThatcher/railsgoat" />
+      </materials>
     </pipeline>
   </pipelines>
   <templates>
