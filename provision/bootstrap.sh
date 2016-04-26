@@ -30,10 +30,11 @@ time sudo apt-get install -y libmysqlclient-dev
 ## download key and install rvm and ruby 2.2.1
 time sudo su - go <<EOF
 gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 # public key required by rvm (which we use to install Ruby)
-curl -L https://get.rvm.io | bash -s stable --autolibs=2 # gauntlt requires Ruby and the Railsgoat demo app requires version 2.2.3 specifically
+curl -L https://get.rvm.io | bash -s stable --autolibs=2 # gauntlt requires Ruby
 source /var/go/.rvm/scripts/rvm
 rvm mount -r https://rvm.io/binaries/debian/jessie_sid/x86_64/ruby-2.2.1.tar.bz2
 rvm alias create default 2.2.1
+rvm use 2.2.1
 EOF
 
 ## libs to build gem native extensions
